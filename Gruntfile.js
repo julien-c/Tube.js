@@ -39,11 +39,18 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			options: {
-				livereload: true
+			default: {
+				files: ["less/*", "js-src/*"],
+				tasks: 'default'
 			},
-			files: ["less/*", "js-src/*"],
-			tasks: 'default'
+			livereload: {
+				options: { livereload: true },
+				files: ['static/*', 'app.lock', 'views/*']
+				// Livereload the frontend whenever:
+				// - compiled assets change
+				// - the node app restarts
+				// - templates change
+			}
 		},
 	});
 	
