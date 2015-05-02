@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Tube.js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+	{{{body}}}
+	
+	<script src="/static/script.js"></script>
+	<script>
+	(function() {
+		if (window.location.hostname === 'localhost') {
+			var s = document.createElement('script');
+			s.setAttribute('src', '//localhost:35729/livereload.js');
+			document.body.appendChild(s);
+		}
+	})();
+	</script>
+</body>
+</html>
