@@ -9,8 +9,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less']);
 	
 	var jsDependencies = [
-		"bower_components/jquery/dist/jquery.min.js",
-		"bower_components/underscore/underscore-min.js",
+		"bower_components/jquery/dist/jquery.js",
+		"bower_components/underscore/underscore.js",
 	];
 	
 	grunt.initConfig({
@@ -24,6 +24,9 @@ module.exports = function(grunt) {
 			}
 		},
 		concat: {
+			options: {
+				stripBanners: {block: true, line: true}
+			},
 			dist: {
 				src: jsDependencies.concat("static/script.min.js"),
 				dest: "static/all.min.js"
