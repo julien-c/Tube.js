@@ -31,6 +31,14 @@ app.on('files:reindex', function() {
 });
 app.emit('files:reindex');
 
+// Helpers
+var thumbs = function(file, width) {
+	var n = 50;
+	return _.range(0, n).map(function(i) {
+		var time = Math.floor(i / n * file.duration);
+		return util.format('/thumbs/%s/%d/%d.jpg', file.id, time, width);
+	});
+};
 
 // Routes
 app.use('/static', express.static('static'));
@@ -48,17 +56,16 @@ app.get('/v/:id.json', function(req, res) {
 app.get('/v/:id/thumbs', function(req, res) {
 	var id = req.params.id
 	var file = app.locals.files[id];
-	file.thumbs = _.range(0, 100).map(function(i) {
-		var time = Math.floor(i / 100 * file.duration);
-		return util.format('/thumbs/%s/%d/400.jpg', id, time);
-	});
-	
+	file.id = id;
+	file.thumbs = thumbs(file, 400);
 	res.render('thumbs', file);
 });
 app.get('/v/:id', function(req, res) {
 	var id = req.params.id
 	var file = app.locals.files[id];
 	file.id = id;
+	file.thumbs = thumbs(file, 100);
+	file.files = app.locals.files;
 	res.render('video', file);
 });
 
