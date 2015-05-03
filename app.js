@@ -86,3 +86,6 @@ app.get('/reindex', function(req, res) {
 
 var server = app.listen(4444);
 fs.writeFile('app.lock', process.pid);
+try {
+	fs.mkdirSync('.cache/');
+} catch(e) {} 
