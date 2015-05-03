@@ -1,3 +1,36 @@
-<video autoplay controls>
-	<source src="/files/{{id}}.mp4" type="video/mp4">
-</video>
+<div class="video-container">
+	<video class="video" autoplay controls>
+		<source src="/files/{{id}}.mp4" type="video/mp4">
+	</video>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9">
+			<h1>{{title}}</h1>
+			<p class="text-muted">{{uploader}}</p>
+			<div class="description">{{description}}</div>
+			<div class="thumbnails">
+				<h4>Thumbnails</h4>
+				{{#each thumbs}}
+					<img src="{{.}}">
+				{{/each}}
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="section-next">
+				<h4>Watch next</h4>
+				
+				{{#each files}}
+					<div class="next-video">
+						<a href="/v/{{id}}"><img src="/thumbs/{{id}}/3/200.jpg"></a>
+						<div class="info">
+							<a class="title" href="/v/{{id}}">{{title}}</a>
+							<p class="text-muted">{{uploader}}</p>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>

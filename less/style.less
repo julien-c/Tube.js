@@ -2,6 +2,69 @@
 
 @import "mixins/clearfix.less";
 
+@container-width: 800px;
+
 body {
 	color: #333;
+	font-size: 13px;
 }
+
+.navbar {
+	margin-bottom: 2px;
+	
+	.navbar-form .form-control {
+		width: 300px;
+	}
+}
+
+.container {
+	width: @container-width + 30px;
+}
+
+h1 {
+	font-weight: 300;
+	font-size: 28px;
+}
+
+h4 {
+	font-weight: 300;
+}
+
+.video-container {
+	background-color: #151515;
+	
+	video.video {
+		display: block;
+		width: @container-width;
+		margin: auto;
+	}
+}
+
+footer {
+	height: 60px;
+}
+
+.thumbnails {
+	margin-top: 40px;
+	img {
+		margin-bottom: 8px;
+		margin-right: 4px;
+	}
+}
+
+.section-next {
+	padding-top: 14px;
+	h4 {
+		margin-bottom: 20px;
+	}
+	.next-video {
+		margin-bottom: 16px;
+		img {
+			max-width: 100%;
+		}
+		.info {
+			margin-top: 4px;
+		}
+	}
+}
+
