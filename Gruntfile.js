@@ -11,18 +11,18 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less']);
 	
 	var jsDependencies = [
-		"bower_components/jquery/dist/jquery.js",
-		"bower_components/underscore/underscore.js",
+		'bower_components/jquery/dist/jquery.js',
+		'bower_components/underscore/underscore.js',
 	];
 	
 	grunt.initConfig({
 		jshint: {
-			src: "js-src/*.js"
+			src: 'js-src/*.js'
 		},
 		uglify: {
 			dist: {
-				src: "js-src/*.js",
-				dest: "static/js-src.min.js"
+				src: 'js-src/*.js',
+				dest: 'static/js-src.min.js'
 			}
 		},
 		concat: {
@@ -39,13 +39,13 @@ module.exports = function(grunt) {
 				compress: true
 			},
 			dist: {
-				src: "less/*.less",
-				dest: "static/style.css"
+				src: 'less/*.less',
+				dest: 'static/style.css'
 			}
 		},
 		watch: {
 			default: {
-				files: ["less/*", "js-src/*"],
+				files: ['less/*', 'js-src/*'],
 				tasks: 'default'
 			},
 			livereload: {
