@@ -1,4 +1,5 @@
 /node_modules
 /bower_components
 /.cache
+/static/js-src.min.js
 /app.lock
