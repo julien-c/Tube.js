@@ -36,7 +36,10 @@ var thumbs = function(file, width) {
 	var n = 50;
 	return _.range(0, n).map(function(i) {
 		var time = Math.floor(i / n * file.duration);
-		return util.format('/thumbs/%s/%d/%d.jpg', file.id, time, width);
+		return {
+			time: time,
+			src: util.format('/thumbs/%s/%d/%d.jpg', file.id, time, width),
+		};
 	});
 };
 
