@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = function(grunt) {
 	
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -20,7 +22,7 @@ module.exports = function(grunt) {
 		uglify: {
 			dist: {
 				src: "js-src/*.js",
-				dest: "static/script.min.js"
+				dest: "static/js-src.min.js"
 			}
 		},
 		concat: {
@@ -28,8 +30,8 @@ module.exports = function(grunt) {
 				stripBanners: {block: true, line: true}
 			},
 			dist: {
-				src: jsDependencies.concat("static/script.min.js"),
-				dest: "static/all.min.js"
+				src: _.union(jsDependencies, ['static/js-src.min.js']),
+				dest: 'static/script.min.js'
 			}
 		},
 		less: {
@@ -49,7 +51,7 @@ module.exports = function(grunt) {
 			livereload: {
 				options: { livereload: true },
 				files: ['static/*', 'app.lock', 'views/*']
-				// Livereload the frontend whenever:
+				// Livereload the Web page whenever:
 				// - compiled assets change
 				// - the node app restarts
 				// - templates change
