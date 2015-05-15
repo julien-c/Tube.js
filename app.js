@@ -48,6 +48,10 @@ app.use('/static', express.static('static'));
 app.use('/files',  express.static('files'));
 
 
+app.get('/upload', function(req, res) {
+	res.render('upload');
+});
+
 app.get('/dl/:id',                         require('./lib/youtube-dl'));
 app.get('/v/:id/probe',                    require('./lib/ffprobe').handleRequest);
 app.get('/thumbs/:id/:time/:width.jpg',    require('./lib/ffmpeg'));
