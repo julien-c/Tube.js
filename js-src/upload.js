@@ -32,7 +32,12 @@ $(function() {
 			if (file.type === 'application/x-bittorrent') {
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					console.log(e.target.result);
+					var contents = e.target.result;
+					var prefix = 'base64,';
+					var torrent = contents.substring(contents.indexOf(prefix) + prefix.length);
+					$.getJSON('/torrent', {torrent: torrent}, function(data) {
+						console.log(data);
+					});
 				};
 				reader.readAsDataURL(file);
 			}

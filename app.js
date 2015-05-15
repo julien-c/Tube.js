@@ -4,6 +4,7 @@ var util = require('util');
 var fs = require('fs');
 var _ = require('underscore');
 var glob = require('glob');
+var parseTorrent = require('parse-torrent');
 
 
 // Express setup
@@ -50,6 +51,10 @@ app.use('/files',  express.static('files'));
 
 app.get('/upload', function(req, res) {
 	res.render('upload');
+});
+app.get('/torrent', function(req, res) {
+	var torrent = parseTorrent(new Buffer(req.query.torrent, 'base64'));
+	res.json(torrent);
 });
 
 app.get('/dl/:id',                         require('./lib/youtube-dl'));
