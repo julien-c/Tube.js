@@ -49,6 +49,9 @@ app.use('/static', express.static('static'));
 app.use('/files',  express.static('files'));
 
 
+app.get('/download', function(req, res) {
+	res.render('download', {url: req.query.url});
+});
 app.get('/upload', function(req, res) {
 	res.render('upload');
 });
@@ -57,7 +60,7 @@ app.get('/torrent', function(req, res) {
 	res.json(torrent);
 });
 
-app.get('/dl/:id',                         require('./lib/youtube-dl'));
+app.get('/download/stream',                require('./lib/youtube-dl'));
 app.get('/v/:id/probe',                    require('./lib/ffprobe').handleRequest);
 app.get('/thumbs/:id/:time/:width.jpg',    require('./lib/ffmpeg'));
 
