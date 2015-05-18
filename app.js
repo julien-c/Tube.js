@@ -56,8 +56,10 @@ app.get('/upload', function(req, res) {
 	res.render('upload');
 });
 app.get('/torrent', function(req, res) {
-	var torrent = parseTorrent(new Buffer(req.query.torrent, 'base64'));
-	res.json(torrent);
+	var parsedTorrent = parseTorrent(new Buffer(req.query.torrent, 'base64'));
+	delete parsedTorrent.info
+	delete parsedTorrent.infoBuffer
+	res.json(parsedTorrent);
 });
 
 app.get('/download/stream',                require('./lib/youtube-dl'));
