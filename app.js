@@ -4,6 +4,7 @@ var util = require('util');
 var fs = require('fs');
 var _ = require('underscore');
 var glob = require('glob');
+var async = require('async');
 var parseTorrent = require('parse-torrent');
 
 
@@ -19,16 +20,20 @@ app.locals.pathFiles = __dirname+'/files';
 app.locals.pathFile = function(id) {
 	return util.format('%s/%s.mp4', app.locals.pathFiles, id);
 };
-app.on('files:reindex', function() {
+app.locals.filesReindex = function(callback) {
 	app.locals.files = {};
 	glob('*.info.json', {cwd: app.locals.pathFiles}, function(err, files) {
-		files.forEach(function(f) {
+		async.eachSeries(files, function(f, _cb) {
 			var id = f.replace('.info.json', '');
 			fs.readFile(util.format('%s/%s', app.locals.pathFiles, f), function(err, data) {
 				app.locals.files[id] = JSON.parse(data);
+				_cb(err);
 			});
-		});
+		}, callback);
 	});
+};
+app.on('files:reindex', function() {
+	app.locals.filesReindex();
 });
 app.emit('files:reindex');
 
