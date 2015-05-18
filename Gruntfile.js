@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: 'less/*.less',
-				dest: 'static/style.css'
+				dest: 'static/style.min.css'
 			}
 		},
 		watch: {
