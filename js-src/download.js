@@ -18,7 +18,6 @@ $(function() {
 			$output.append('<strong>$</strong> '+e.data+'\n');
 		});
 		source.addEventListener('message', function(e) {
-			console.log(e.data);
 			$output.append(e.data+'\n');
 		});
 		source.addEventListener('err', function(e) {
@@ -26,6 +25,9 @@ $(function() {
 		});
 		source.addEventListener('redirect', function(e) {
 			$output.append('\n'+'<span class="redirect">Processing completed. Your video here: <a href="'+e.data+'">'+e.data+'</a></span>'+'\n');
+		});
+		source.addEventListener('pleaseClose', function(e) {
+			source.close();
 		});
 	});
 	
