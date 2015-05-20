@@ -67,7 +67,7 @@ app.get('/torrent', function(req, res) {
 	res.json(parsedTorrent);
 });
 
-app.get('/download/stream',                require('./lib/youtube-dl').test);
+app.get('/download/stream',                require('./lib/youtube-dl').dl);
 app.get('/v/:id/probe',                    require('./lib/ffprobe').handleRequest);
 app.get('/thumbs/:id/:time/:width.jpg',    require('./lib/ffmpeg'));
 
