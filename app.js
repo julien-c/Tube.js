@@ -11,6 +11,7 @@ var parseTorrent = require('parse-torrent');
 // Express setup
 app.set('views', './views');
 app.set('view engine', 'handlebars');
+app.set('view options', {layout: '_layout'});
 app.engine('handlebars', require('hbs').__express);
 
 
