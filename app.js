@@ -110,6 +110,7 @@ app.get('/proxy', function(req, res) {
 		'req.headers': req.headers,
 		'req.ip': req.ip,
 		'req.ips': req.ips,
+		'req.protocol': req.protocol,
 	});
 });
 
