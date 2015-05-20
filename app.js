@@ -108,7 +108,8 @@ app.get('/reindex', function(req, res) {
 app.get('/proxy', function(req, res) {
 	res.json({
 		'req.headers': req.headers,
-		'req.id': req.id,
+		'req.ip': req.ip,
+		'req.ips': req.ips,
 	});
 });
 
