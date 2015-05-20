@@ -105,6 +105,9 @@ app.get('/reindex', function(req, res) {
 	res.send();
 });
 
+app.get('/proxy', function(req, res) {
+	res.json(req.headers);
+});
 
 var server = app.listen(4444, function() {
 	var host = server.address().address;
