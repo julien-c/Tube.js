@@ -33,5 +33,8 @@ $(function() {
 	
 	if ($form.length) {
 		if ($input.val() !== "") { $form.submit(); }
+		// Setup correct url for bookmarklet:
+		var href = $('.js-bookmarklet').attr('href');
+		$('.js-bookmarklet').attr('href', href.replace('{URL}', window.location.origin));
 	}
 });
