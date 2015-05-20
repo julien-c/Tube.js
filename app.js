@@ -13,6 +13,7 @@ app.set('views', './views');
 app.set('view engine', 'handlebars');
 app.set('view options', {layout: '_layout'});
 app.engine('handlebars', require('hbs').__express);
+app.set('trust proxy', 'loopback');
 
 
 // App variables
