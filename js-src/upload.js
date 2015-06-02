@@ -35,7 +35,10 @@ $(function() {
 					var contents = e.target.result;
 					var prefix = 'base64,';
 					var torrent = contents.substring(contents.indexOf(prefix) + prefix.length);
-					$.getJSON('/torrent', {torrent: torrent}, function(data) {
+					// $.post('/parseTorrent', {torrent: torrent}, function(data) {
+					// 	console.log(data);
+					// });
+					$.post('/transmission/torrent-add', {metainfo: torrent}, function(data) {
 						console.log(data);
 					});
 				};

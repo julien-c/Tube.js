@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 var util = require('util');
 var fs = require('fs');
 var _ = require('underscore');
@@ -14,6 +15,7 @@ app.set('view engine', 'handlebars');
 app.set('view options', {layout: '_layout'});
 app.engine('handlebars', require('hbs').__express);
 app.set('trust proxy', 'loopback');
+app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
 
 
 // App variables
@@ -62,8 +64,8 @@ app.get('/download', function(req, res) {
 app.get('/upload', function(req, res) {
 	res.render('upload');
 });
-app.get('/torrent', function(req, res) {
-	var parsedTorrent = parseTorrent(new Buffer(req.query.torrent, 'base64'));
+app.post('/parseTorrent', function(req, res) {
+	var parsedTorrent = parseTorrent(new Buffer(req.body.torrent, 'base64'));
 	delete parsedTorrent.info
 	delete parsedTorrent.infoBuffer
 	res.json(parsedTorrent);
@@ -92,6 +94,7 @@ app.get('/v/:id', function(req, res) {
 	file.files = app.locals.files;
 	res.render('video', file);
 });
+app.use('/transmission', require('./lib/transmission'));
 
 
 app.get('/', function(req, res) {
