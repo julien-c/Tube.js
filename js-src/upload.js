@@ -47,6 +47,16 @@ $(function() {
 		});
 	})
 	;
+	
+	// Input form:
+	var $form = $('form.upload');
+	$form.submit(function(e) {
+		e.preventDefault();
+		var url = $form.find('input[type="text"]').val();
+		$.post('/transmission/torrent-add', {filename: url}, function(data) {
+			console.log(data);
+		});
+	});
 });
 
 // Torrent client:
