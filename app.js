@@ -44,6 +44,10 @@ app.on('files:reindex', function() {
 	app.locals.filesReindex();
 });
 app.emit('files:reindex');
+app.locals.queue = (fs.existsSync('.queue.json')) ? JSON.parse(fs.readFileSync('.queue.json')) : {};
+app.locals.queueSave = function() {
+	fs.writeFile('.queue.json', JSON.stringify(app.locals.queue, null, 4));
+};
 
 // Helpers
 var thumbs = function(file, width) {
