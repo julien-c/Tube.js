@@ -4,15 +4,17 @@ module.exports = function(grunt) {
 	
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	
-	grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less']);
+	grunt.registerTask('default', ['jshint', 'uglify', 'handlebars', 'concat', 'less']);
 	
 	var jsDependencies = [
 		'bower_components/jquery/dist/jquery.js',
 		'bower_components/underscore/underscore.js',
+		'bower_components/handlebars/handlebars.runtime.min.js',
 	];
 	
 	grunt.initConfig({
@@ -25,12 +27,26 @@ module.exports = function(grunt) {
 				dest: 'static/js-src.min.js'
 			}
 		},
+		handlebars: {
+			options: {
+				namespace: 'App.Templates',
+				processName: function(filePath) {
+					var pieces = filePath.split('/');
+					var fileName = pieces[pieces.length - 1];
+					return fileName.substr(0, fileName.lastIndexOf('.'));
+				}
+			},
+			dist: {
+				src: ['views/torrent.handlebars'],
+				dest: 'static/templates.min.js'
+			}
+		},
 		concat: {
 			options: {
 				stripBanners: {block: true, line: true}
 			},
 			dist: {
-				src: _.union(jsDependencies, ['static/js-src.min.js']),
+				src: _.union(jsDependencies, ['static/templates.min.js', 'static/js-src.min.js']),
 				dest: 'static/script.min.js'
 			}
 		},

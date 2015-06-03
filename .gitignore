@@ -2,4 +2,5 @@
 /bower_components
 /.cache
 /static/js-src.min.js
+/static/templates.min.js
 /app.lock

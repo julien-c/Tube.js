@@ -54,12 +54,17 @@ $(function() {
 $(function() {
 	if ($('.torrents-list').length) {
 		var $torrentsList = $('.torrents-list');
+		
 		var refreshActive = function() {
-			$.getJSON('/transmission/active', function(result) {
-				console.log(result.torrents);
+			$.getJSON('/transmission/all', function(result) {
+				$torrentsList.empty();
+				result.torrents.forEach(function(t) {
+					console.log(t);
+					$torrentsList.append(App.Templates.torrent(t));
+				});
 			});
 		};
 		refreshActive();
-		setInterval(refreshActive, 1000);
+		// setInterval(refreshActive, 1000);
 	}
 });
