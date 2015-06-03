@@ -24,6 +24,10 @@ app.locals.pathFiles = __dirname+'/files';
 app.locals.pathFile = function(id) {
 	return util.format('%s/%s.mp4', app.locals.pathFiles, id);
 };
+app.locals.pathVideo = app.locals.pathFile;
+app.locals.pathInfoJson = function(id) {
+	return util.format('%s/%s.info.json', app.locals.pathFiles, id);
+};
 app.locals.filesReindex = function(callback) {
 	app.locals.files = {};
 	glob('*.info.json', {cwd: app.locals.pathFiles}, function(err, files) {
