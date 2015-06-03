@@ -35,9 +35,9 @@ $(function() {
 					var contents = e.target.result;
 					var prefix = 'base64,';
 					var torrent = contents.substring(contents.indexOf(prefix) + prefix.length);
-					// $.post('/parseTorrent', {torrent: torrent}, function(data) {
-					// 	console.log(data);
-					// });
+					$.post('/parseTorrent', {torrent: torrent}, function(data) {
+						console.log(data);
+					});
 					$.post('/transmission/torrent-add', {metainfo: torrent}, function(data) {
 						console.log(data);
 					});
@@ -59,12 +59,12 @@ $(function() {
 			$.getJSON('/transmission/all', function(result) {
 				$torrentsList.empty();
 				result.torrents.forEach(function(t) {
-					console.log(t);
+					t.progress = 100 * Math.min(1.0, t.downloadedEver/t.sizeWhenDone);
 					$torrentsList.append(App.Templates.torrent(t));
 				});
 			});
 		};
 		refreshActive();
-		// setInterval(refreshActive, 1000);
+		setInterval(refreshActive, 1000);
 	}
 });

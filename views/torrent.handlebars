@@ -1,13 +1,14 @@
 <div class="torrent">
-	<div class="progress-download" style="width: 47%;"></div>
-	<div class="progress-conversion" style="width: 29%;"></div>
+	<div class="progress-download" style="width: {{progress}}%;"></div>
+	<div class="progress-conversion" style="width: 0%;"></div>
 	<div class="torrent-inner">
-		<div class="name">GoT</div>
+		<div class="eta">{{formatEta eta}}</div>
+		<div class="name">{{name}}</div>
+		<div class="hash-string">{{hashString}}</div>
 		<div class="details">
-			<span class="rate-download">12321 kb</span>
-			<span class="rate-upload">12321 kb</span>
-			<span class="upload-ratio">12321 kb</span>
-			<span class="hash-string">{{hashString}}</span>
+			<span class="rate-download">Dl: {{formatRate rateDownload}}</span>
+			<span class="rate-upload">Up: {{formatRate rateUpload}}</span>
+			<span class="upload-ratio">Ratio: {{uploadRatio}}</span>
 		</div>
 	</div>
 </div>

@@ -1,15 +1,13 @@
-.container-upload {
-	max-width: 620px;
-	margin: auto;
-}
+
 
 .dropzone {
-	margin-top: 60px;
-	font-size: 18px;
+	margin-top: 24px;
+	margin-bottom: 56px;
+	font-size: 16px;
 	border: 2px #B0B0B0 dashed;
 	border-radius: 3px;
 	color: #CCC;
-	padding: 32px 50px;
+	padding: 26px 50px;
 	text-align: center;
 	transition: border-color .3s, color .3s;
 	&.over {
@@ -19,7 +17,6 @@
 }
 
 .torrents-list {
-	margin-top: 50px;
 	.torrent {
 		position: relative;
 		background-color: #F7F7F7;
@@ -39,19 +36,23 @@
 		.torrent-inner {
 			position: relative;
 			padding: 10px 14px 14px;
+			.eta {
+				float: right;
+				display: inline;
+			}
 			.name {
 				font-weight: 500;
 				font-size: 16px;
+			}
+			.hash-string {
+				color: #AAA;
+				font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+				font-size: 10px;
 			}
 			.details {
 				color: #AAA;
 				span {
 					margin-right: 4px;
-				}
-				.hash-string {
-					font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-					font-size: 10px;
-					margin-left: 6px;
 				}
 			}
 		}

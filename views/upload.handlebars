@@ -1,5 +1,14 @@
-<div class="container-upload">
-	<div class="dropzone">Drag’n’drop your torrent files here.</div>
+<div class="container-narrow page-upload">
+	<form class="upload">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Enter torrent or magnet url here" value="{{url}}">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="submit">Upload</button>
+			</span>
+		</div>
+	</form>
+	
+	<div class="dropzone">Or drag’n’drop your torrent files here.</div>
 	
 	<div class="torrents-list"></div>
 </div>
