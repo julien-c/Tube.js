@@ -48,3 +48,18 @@ $(function() {
 	})
 	;
 });
+
+// Torrent client:
+
+$(function() {
+	if ($('.torrents-list').length) {
+		var $torrentsList = $('.torrents-list');
+		var refreshActive = function() {
+			$.get('/transmission/active', function(result) {
+				console.log(result.torrents);
+			});
+		};
+		refreshActive();
+		setInterval(refreshActive, 1000);
+	}
+});
