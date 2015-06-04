@@ -1,7 +1,6 @@
 /node_modules
 /bower_components
 /.cache
-/.queue.json
 /static/js-src.min.js
 /static/templates.min.js
 /app.lock

@@ -4,6 +4,7 @@
 
 - `youtube-dl`
 - `ffmpeg` (includes `ffprobe`)
+- `transmission-daemon`
 
 ## How to run
 
