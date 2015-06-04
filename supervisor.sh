@@ -1,1 +1,1 @@
-supervisor -w .,lib/ app.js
+supervisor --harmony -w .,lib/ app.js
