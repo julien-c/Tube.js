@@ -35,9 +35,9 @@ $(function() {
 					var contents = e.target.result;
 					var prefix = 'base64,';
 					var torrent = contents.substring(contents.indexOf(prefix) + prefix.length);
-					$.post('/parseTorrent', {torrent: torrent}, function(data) {
-						console.log(data);
-					});
+					// $.post('/parseTorrent', {torrent: torrent}, function(data) {
+					// 	console.log(data);
+					// });
 					$.post('/transmission/torrent-add', {metainfo: torrent}, function(data) {
 						console.log(data);
 					});
@@ -59,20 +59,28 @@ $(function() {
 	});
 });
 
-// Torrent client:
+// Torrent list:
 
 $(function() {
 	if ($('.torrents-list').length) {
 		var $torrentsList = $('.torrents-list');
+		var shouldRefresh = true;
 		
 		var refreshActive = function() {
-			$.getJSON('/transmission/all', function(result) {
-				$torrentsList.empty();
-				result.torrents.forEach(function(t) {
-					t.progress = 100 * Math.min(1.0, t.downloadedEver/t.sizeWhenDone);
-					$torrentsList.append(App.Templates.torrent(t));
-				});
-			});
+			if (shouldRefresh) {
+				$.getJSON('/transmission/all')
+				.fail(function() {
+					shouldRefresh = false;
+				})
+				.done(function(result) {
+					$torrentsList.empty();
+					result.torrents.forEach(function(t) {
+						t.progress = 100 * Math.min(1.0, t.downloadedEver/t.sizeWhenDone);
+						$torrentsList.append(App.Templates.torrent(t));
+					});
+				})
+				;
+			}
 		};
 		refreshActive();
 		setInterval(refreshActive, 1000);

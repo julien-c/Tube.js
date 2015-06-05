@@ -4,8 +4,6 @@ var bodyParser = require('body-parser');
 var util = require('util');
 var fs = require('fs');
 var _ = require('underscore');
-var glob = require('glob');
-var async = require('async');
 var parseTorrent = require('parse-torrent');
 
 
@@ -21,33 +19,32 @@ app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
 // App variables
 app.locals.dirname = __dirname;
 app.locals.pathFiles = __dirname+'/files';
-app.locals.pathFile = function(id) {
-	return util.format('%s/%s.mp4', app.locals.pathFiles, id);
-};
-app.locals.pathVideo = app.locals.pathFile;
-app.locals.pathInfoJson = function(id) {
-	return util.format('%s/%s.info.json', app.locals.pathFiles, id);
-};
-app.locals.filesReindex = function(callback) {
-	app.locals.files = {};
-	glob('*.info.json', {cwd: app.locals.pathFiles}, function(err, files) {
-		async.eachSeries(files, function(f, _cb) {
-			var id = f.replace('.info.json', '');
-			fs.readFile(util.format('%s/%s', app.locals.pathFiles, f), function(err, data) {
-				app.locals.files[id] = JSON.parse(data);
-				_cb(err);
-			});
-		}, callback);
-	});
-};
-app.on('files:reindex', function() {
-	app.locals.filesReindex();
-});
-app.emit('files:reindex');
-app.locals.queue = (fs.existsSync('.queue.json')) ? JSON.parse(fs.readFileSync('.queue.json')) : {};
-app.locals.queueSave = function() {
-	fs.writeFile('.queue.json', JSON.stringify(app.locals.queue, null, 4));
-};
+
+var videoManager = require('./lib/VideoManager')(app.locals.pathFiles);
+
+var torrentManager = require('./lib/TorrentManager')(app.locals.pathFiles, videoManager);
+torrentManager.startPolling();
+
+
+
+app.locals.videos = [];
+// app.locals.filesReindex = function(callback) {
+// 	Video.filesIndex(app.locals.pathFiles, function(err, videos) {
+// 		app.locals.videos = videos;
+// 		callback();
+// 	});
+// };
+// app.locals.filesReindex();
+// app.locals.filesAddTorrent = function(torrent, callback) {
+// 	// Video.addTorrent(torrent, function(err, 
+// };
+
+
+
+
+
+
+
 
 // Helpers
 var thumbs = function(file, width) {
@@ -65,6 +62,8 @@ var thumbs = function(file, width) {
 app.use('/static', express.static('static'));
 app.use('/files',  express.static('files'));
 
+
+app.use('/transmission', require('./lib/transmission')(torrentManager));
 
 app.get('/download', function(req, res) {
 	res.render('download', {url: req.query.url});
@@ -102,20 +101,21 @@ app.get('/v/:id', function(req, res) {
 	file.files = app.locals.files;
 	res.render('video', file);
 });
-app.use('/transmission', require('./lib/transmission'));
 
 
 app.get('/', function(req, res) {
-	res.json(_.map(app.locals.files, function(file, id) {
-		var f = _.pick(file, 'categories', 'description', 'fulltitle', 'title');
-		f['__'] = req.protocol + '://' + req.get('Host') + '/v/'+id;
-		return f;
-	}));
+	res.json();
+	// res.json(_.map(app.locals.files, function(file, id) {
+	// 	var f = _.pick(file, 'categories', 'description', 'fulltitle', 'title');
+	// 	f['__'] = req.protocol + '://' + req.get('Host') + '/v/'+id;
+	// 	return f;
+	// }));
 });
 
 app.get('/reindex', function(req, res) {
-	app.emit('files:reindex');
-	res.send();
+	app.locals.filesReindex(function() {
+		res.sendStatus(200);
+	});
 });
 
 app.get('/proxy', function(req, res) {
