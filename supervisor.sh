@@ -1,1 +1,1 @@
-supervisor --harmony -w .,lib/ app.js
+supervisor -x iojs -w .,lib/ -- --es_staging --harmony_arrow_functions app.js
