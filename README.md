@@ -9,7 +9,7 @@
 ## How to run
 
 - `npm install`
-- `node app.js`
+- `iojs --es_staging --harmony_arrow_functions app.js`
 
 ## How to run in dev mode
 
