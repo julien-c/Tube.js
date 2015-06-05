@@ -21,42 +21,26 @@ app.locals.dirname = __dirname;
 app.locals.pathFiles = __dirname+'/files';
 
 var videoManager = require('./lib/VideoManager')(app.locals.pathFiles);
+videoManager.filesIndex();
+app.locals.videoManager = videoManager;
 
 var torrentManager = require('./lib/TorrentManager')(app.locals.pathFiles, videoManager);
 torrentManager.startPolling();
 
 
 
-app.locals.videos = [];
-// app.locals.filesReindex = function(callback) {
-// 	Video.filesIndex(app.locals.pathFiles, function(err, videos) {
-// 		app.locals.videos = videos;
-// 		callback();
-// 	});
-// };
-// app.locals.filesReindex();
-// app.locals.filesAddTorrent = function(torrent, callback) {
-// 	// Video.addTorrent(torrent, function(err, 
-// };
+app.param('id', function(req, res, next, id) {
+	var video = videoManager.findVideoById(id);
+	if (!video) {
+		return res.sendStatus(404);
+	}
+	req.video = video;
+	next();
+});
 
 
 
 
-
-
-
-
-// Helpers
-var thumbs = function(file, width) {
-	var n = 50;
-	return _.range(0, n).map(function(i) {
-		var time = Math.floor(i / n * file.duration);
-		return {
-			time: time,
-			src: util.format('/thumbs/%s/%d/%d.jpg', file.id, time, width),
-		};
-	});
-};
 
 // Routes
 app.use('/static', express.static('static'));
@@ -87,19 +71,16 @@ app.get('/v/:id.json', function(req, res) {
 	res.json(app.locals.files[req.params.id]);
 });
 app.get('/v/:id/thumbs', function(req, res) {
-	var id = req.params.id
-	var file = app.locals.files[id];
-	file.id = id;
-	file.thumbs = thumbs(file, 400);
-	res.render('thumbs', file);
+	res.render('thumbs', {
+		thumbs: req.video.thumbs(400),
+	});
 });
 app.get('/v/:id', function(req, res) {
-	var id = req.params.id
-	var file = app.locals.files[id];
-	file.id = id;
-	file.thumbs = thumbs(file, 100);
-	file.files = app.locals.files;
-	res.render('video', file);
+	res.render('video', {
+		video: req.video,
+		thumbs: req.video.thumbs(200),
+		videos: videoManager.videos,
+	});
 });
 
 
@@ -113,7 +94,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/reindex', function(req, res) {
-	app.locals.filesReindex(function() {
+	videoManager.filesIndex(function() {
 		res.sendStatus(200);
 	});
 });
